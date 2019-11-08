@@ -12,18 +12,26 @@ public class Motor {
     private     double  speedLimit = 1.0;
     private     double  motorSpeed = 0;
     private     DcMotor motor;
-
+    private     boolean isReverse;
 
 
     public Motor(String motorID, boolean isForward) {
 
         motor = Core.getHwMap().dcMotor.get(motorID);
 
+        isReverse = !isForward;
+
         motor.setDirection((isForward?DcMotor.Direction.FORWARD : DcMotor.Direction.REVERSE));
     }
 
     public void setReverse(boolean isReverse) {
         motor.setDirection(isReverse? DcMotor.Direction.REVERSE : DcMotor.Direction.FORWARD);
+    }
+
+    public void flip() {
+        isReverse = !isReverse;
+
+        setReverse(isReverse);
     }
 
     public Motor(String motorID) {
@@ -36,6 +44,10 @@ public class Motor {
 
         if (up == down) motor.setPower(0);
         else { motor.setPower(getLimitedSpeed(up? 1 : -1)); }
+    }
+
+    public void stop() {
+        motor.setPower(0);
     }
 
     public void move(double value) {

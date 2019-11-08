@@ -6,12 +6,18 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+
+/**
+ * Try NOT to modify this file.
+ */
+
 public class Core {
 
-    public static OpMode mainClass;
+    public static LinearOpMode mainClass;
 
-    public static void initialize(OpMode opMode) {
-        mainClass = opMode;
+    public static void initialize(LinearOpMode opMode) {
+
+         mainClass = opMode;
     }
 
     public static HardwareMap getHwMap() {

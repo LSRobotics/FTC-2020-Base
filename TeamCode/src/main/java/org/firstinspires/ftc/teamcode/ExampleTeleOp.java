@@ -1,21 +1,25 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.lschs.*;
 import org.firstinspires.ftc.teamcode.lschs.Controller.Key;
 
-@TeleOp(name = "Example TeleOp", group = "Iterative OpMode")
+@TeleOp(name = "Example TeleOp", group = "Linear OpMode")
 
-public class ExampleTeleOp extends OpMode {
+public class ExampleTeleOp extends LinearOpMode {
 
-    Controller xbox1;
-    public boolean isLowSpeedMode = false;
+    private Controller xbox1;
+    private boolean isLowSpeedMode = false;
+    private ElapsedTime runtime = new ElapsedTime();
 
-
-    @Override
-    public void init() {
+    /**
+     * Put your initialization code HERE
+     */
+    public void initialize() {
 
         //WARNING: DO NOT MODIFY THIS PART OF THE CODE! ===========================
 
@@ -37,23 +41,44 @@ public class ExampleTeleOp extends OpMode {
     }
 
     @Override
-    public void loop() {
+    public void runOpMode() {
 
-        //Update key data for the first controller
-        xbox1.fetchData();
+        //DON'T MODIFY THIS! ==============
+        initialize();
+        waitForStart();
+        runtime.reset();
 
-        //Robot Drive
-        Chassis.drive(xbox1.getValue(Key.J_LEFT_X), //Left Joystick's horizontal movement controls left/right strafing
-                -xbox1.getValue(Key.J_LEFT_Y), //Left joystick's vertical movement controls forward/back
-                xbox1.getValue(Key.J_RIGHT_X)); //Right joystick's horizontal movement controls robot rotation
+        while(opModeIsActive()) {
+        //=================================
 
-        //Low speed mode by toggling "Right bumper"
-        if(xbox1.isKeyToggled(Key.RB)) {
+            //Your code zone START -----------------------------------------
 
-            isLowSpeedMode = !isLowSpeedMode;
+            //Update key data for the first controller
+            xbox1.fetchData();
 
-            Chassis.updateSpeedLimit(isLowSpeedMode? 0.7 : 1.0); //70% under low speed mode
+            //Robot Drive
+            Chassis.drive(xbox1.getValue(Key.J_LEFT_X), //Left Joystick's horizontal movement controls left/right strafing
+                    -xbox1.getValue(Key.J_LEFT_Y), //Left joystick's vertical movement controls forward/back
+                    xbox1.getValue(Key.J_RIGHT_X)); //Right joystick's horizontal movement controls robot rotation
+
+            //Low speed mode by toggling "Right bumper"
+            if (xbox1.isKeyToggled(Key.RB)) {
+
+                isLowSpeedMode = !isLowSpeedMode;
+
+                Chassis.updateSpeedLimit(isLowSpeedMode ? 0.7 : 1.0); //70% under low speed mode
+            }
+
+            //Print information on the Driver Station phone (When needed)
+            Util.print("Elapsed time: " + runtime.toString());
+
+            Util.print("Robot Drive input: "
+                    + (xbox1.getValue(Key.J_LEFT_X)) + ", "
+                    + (-xbox1.getValue(Key.J_LEFT_Y)) + ", "
+                    + (xbox1.getValue(Key.J_RIGHT_X)));
+
+            //Your code zone END ------------------------------------------
+
         }
-
     }
 }

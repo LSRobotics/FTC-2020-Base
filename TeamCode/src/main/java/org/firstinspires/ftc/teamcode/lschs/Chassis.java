@@ -159,4 +159,18 @@ final public class Chassis {
             default          : return 0; // Won't happen because of the enum in parameter
         }
     }
+
+    public static void stop() {
+        FL.stop();
+        FR.stop();
+        BL.stop();
+        BR.stop();
+    }
+
+    public static void flip() {
+        FL.flip();
+        FR.flip();
+        BL.flip();
+        BR.flip();
+    }
 }
